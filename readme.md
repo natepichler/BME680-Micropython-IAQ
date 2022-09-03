@@ -1,3 +1,15 @@
+This driver is forked from https://github.com/robert-hh/BME680-Micropython.
+
+This driver has added support for calculating IAQ values and classifications.
+
+IAQ values can be added to code using ```bme.aqi```
+
+See IAQ_example.py for reference.
+
+Original readme.md is below.
+
+----------------------------------------------------------------------------
+
 # Micropython Driver for a BME680 breakout
 
 This a port of an Adafruit driver for use with micropython.org based and
