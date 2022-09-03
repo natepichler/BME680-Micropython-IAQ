@@ -253,9 +253,9 @@ class Adafruit_BME680:
         return int(calc_gas_res)
       
 #-------------------------------------------------
-  @property
-  def aqi(self):
-    return (math.log10(self.gas) + 0.04) * self.humidity
+    @property
+    def aqi(self):
+        return (math.log10(self.gas) + 0.04) * self.humidity
 
 #-------------------------------------------------
 
