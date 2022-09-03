@@ -254,8 +254,14 @@ class Adafruit_BME680:
       
 #-------------------------------------------------
     @property
-    def aqi(self):
-        return (math.log10(self.gas) + 0.04) * self.humidity
+    def rho_max(self):
+      return (6.112 * 100 * math.exp((17.62 * self.temperature)/(243.12 + self.temperature)))/(461.52 * (self.temperature + 273.15))
+    @property
+    def abs_humidity(self):
+      return self.humidity * 10 * self.rho_max
+    @property
+    def comp_gas(self):
+      return self.gas * math.exp(-0.0304494591240895 * self.abs_humidity)
 
 #-------------------------------------------------
 
