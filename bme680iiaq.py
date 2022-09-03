@@ -250,6 +250,14 @@ class Adafruit_BME680:
         var3 = (_LOOKUP_TABLE_2[self._gas_range] * var1) >> 9
         calc_gas_res = (var3 + (var2 >> 1)) // var2
         return int(calc_gas_res)
+    
+    #-------------------------------------------------
+    
+    @property
+    def aqi(self):
+        return (math.log10(self.gas) + 0.04) * self.humidity
+
+    #-------------------------------------------------
 
     def _perform_reading(self):
         """Perform a single-shot reading from the sensor and fill internal data structure for
