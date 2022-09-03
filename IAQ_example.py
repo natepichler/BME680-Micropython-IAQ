@@ -13,7 +13,7 @@
 # https://github.com/robert-hh/BME680-Micropython
 # https://www.bosch-sensortec.com/media/boschsensortec/downloads/datasheets/bst-bme680-ds001.pdf
 # https://forums.pimoroni.com/t/bme680-observed-gas-ohms-readings/6608/17
-
+# https://github.com/thstielow/raspi-bme680-iaq
 # My GitHub: https://github.com/natepichler
 
 #----------------------------------------
@@ -29,32 +29,39 @@ from bme680iaq import *
 i2c = I2C(0, scl=Pin(13), sda=Pin(12))
 bme = BME680_I2C(i2c=i2c)
 #----------------------------------------
-
+gas_max=50000
+for _ in range(10):
+    print(bme.comp_gas)
+    time.sleep(3)
+            
 while True:
             
-    if bme.aqi < 0:
-        AQI_SCORE = "ERROR"
+    AQ = min((bme.comp_gas/gas_max)**2,1)*100
+        IAQ = (1 - (AQ/100))*500
+    
+    if IAQ < 0:
+        IAQ = "ERROR"
 
-    if 0 < bme.aqi <=50:
-        AQI_SCORE = "EXCELLENT"
-      
-    if 50 < bme.aqi <= 100:
-        AQI_SCORE = "GOOD"
+    if 0 < IAQ <=50:
+        IAQ_SCORE = "EXCELLENT"
         
-    if 100 < bme.aqi <= 150:
-        AQI_SCORE = "LIGHTLY POLLUTED"
+    if 50 < IAQ <= 100:
+        IAQ_SCORE = "GOOD"
         
-    if 150 < bme.aqi <= 200:
-        AQI_SCORE = "MODERATELY POLLUTED"
+    if 100 < IAQ <= 150:
+        IAQ_SCORE = "LIGHTLY POLLUTED"
         
-    if 200 < bme.aqi <= 250:
-        AQI_SCORE = "HEAVILY POLLUTED"
+    if 150 < IAQ <= 200:
+        IAQ_SCORE = "MODERATELY POLLUTED"
         
-    if 250 < bme.aqi <= 350:
-        AQI_SCORE = "SEVERELY POLLUTED"
+    if 200 < IAQ <= 250:
+        IAQ_SCORE = "HEAVILY POLLUTED"
+        
+    if 250 < IAQ <= 350:
+        IAQ_SCORE = "SEVERELY POLLUTED"
 
-    if  bme.aqi > 350:
-        AQI_SCORE = "EXTREMELY POLLUTED"
+    if  IAQ > 350:
+        IAQ_SCORE = "EXTREMELY POLLUTED"
         
     time.sleep(3)
     
@@ -62,6 +69,6 @@ while True:
     print("%RH :",bme.humidity)
     print("Pressure :",bme.pressure)
     print("Gas Resistance :",bme.gas)
-    print("AQI :",bme.aqi)
-    print(AQI_SCORE)
+    print("AQI :",IAQ)
+    print(IAQ_SCORE)
     print("---------------------------")
