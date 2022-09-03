@@ -2,9 +2,7 @@ This driver is forked from https://github.com/robert-hh/BME680-Micropython.
 
 This driver has added support for calculating IAQ values and classifications.
 
-IAQ values can be added to code using ```bme.aqi```
-
-See IAQ_example.py for reference.
+See IAQ_example.py for how to calculate the IAQ value.
 
 Original readme.md is below.
 
